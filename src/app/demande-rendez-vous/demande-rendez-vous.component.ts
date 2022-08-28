@@ -6,6 +6,7 @@ import {Role} from "../../models/Role";
 import {RendezVousService} from "../services/rendez-vous.service";
 import {RendezVousEntity} from "../../models/RendezVous";
 import {DatePipe} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-demande-rendez-vous',
@@ -24,7 +25,8 @@ export class DemandeRendezVousComponent implements OnInit {
   displayBasic1:boolean
   constructor(private fb: FormBuilder,
   private userService: AccountService,
-              private rdvService: RendezVousService) { }
+              private rdvService: RendezVousService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.getAllMedecin();
@@ -45,7 +47,12 @@ export class DemandeRendezVousComponent implements OnInit {
     let hr = new Date(this.date+ 'T' + this.heur+ ':00');
     let rdv:any={patientEmail:this.ajoutRDVform.get('patientEmail').value, user:{id:this.id},dateOfApt:hr}
     console.log(this.date+this.heur,rdv )
-    this.rdvService.demandeRDV(rdv).subscribe(data=>this.displayBasic1=true)
+    this.rdvService.demandeRDV(rdv).subscribe(data=> {
+
+      this.router.navigate(['/'])
+      this.displayBasic1 = true
+
+    })
 }
 
 

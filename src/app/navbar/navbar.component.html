@@ -1,0 +1,23 @@
+<mat-sidenav-container>
+  <mat-sidenav-content class=" bg-light">
+    <mat-toolbar>
+      <p class="titre">
+        PortalMedical
+      </p>
+      <span class="example-spacer"></span>
+      <div class="navcontent" >
+      <a class="login m-3"[routerLink]="['/calender']">
+        Calendrier
+      </a>
+      <a class="login" [routerLink]="['/listeRDV']">
+        Liste des demandes
+      </a>
+      </div>
+    </mat-toolbar>
+    <div>
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

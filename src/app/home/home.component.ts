@@ -39,9 +39,12 @@ export class HomeComponent implements OnInit {
     this.password.reset();
   }
   openDialog() {
-    this.dialog.open(PasswordComponent, {
+    let dialogRef= this.dialog.open(PasswordComponent, {
       height: '40%',
       width: '40%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 

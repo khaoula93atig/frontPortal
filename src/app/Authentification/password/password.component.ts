@@ -25,6 +25,7 @@ export class PasswordComponent{
   sendEmail(){
     this.authService.forgotPassword(this.email.value).subscribe(() =>
       this.toast.success('E-mail envoyer')
+
     , () => {
       this.toast.success('E-mail envoyer');
     });

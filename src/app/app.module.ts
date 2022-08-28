@@ -49,6 +49,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from "primeng";
 import { ListeRendezVousComponent } from './liste-rendez-vous/liste-rendez-vous.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
@@ -78,7 +79,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AcceuilComponent,
     DemandeRendezVousComponent,
     CalenderComponent,
-    ListeRendezVousComponent
+    ListeRendezVousComponent,
+    NavbarComponent
 
   ],
   imports: [

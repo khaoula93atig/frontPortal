@@ -1,13 +1,13 @@
-  <div class="bg-light full-height pt-5 h-100">
+  <div class="bg-light full-height h-100 mt-0">
     <div class="container  ">
-      <div class="row">
-      
+      <div class="row justify-content-center">
+
         <div class="col-md-4 contents">
-          <div class="row justify-content-center">
+          <div class="row justify-content-center mt-0">
             <img src="../../assets/img/PortlMedical.png" alt="logo" class="img-fluid ">
             <div class="col-md-12 justify-content-center">
-              <div class="mb-4 ">
-                <h1 class="text-center">S'identifier</h1>
+              <div class="mb-1 ">
+                <h1 class="text-center" style="color: #1abc9c">S'identifier</h1>
               </div>
               <form [formGroup]="loginForm"  >
                 <div class="example-container">
@@ -25,26 +25,26 @@
                     <mat-error *ngIf="password.invalid">{{getErrorPasswordMessage()}}</mat-error>
                   </mat-form-field>
                 </div>
-  
+
                 <div class="row justify-content-center">
-                  <button   mat-raised-button color="primary"  [disabled]="!loginForm.valid" (click)="signIn()" class="w-75  " > S'identifier </button>
-                                          
-                    <button mat-raised-button color="primary" class="text-center mt-2"(click)="openDialog2()">Enregistrer</button>
-    
-                  
+                  <button class="btn btn-info"  [disabled]="!loginForm.valid" (click)="signIn()" > S'identifier </button>
+
+                    <button class=" btn btn-danger text-center mt-2"(click)="openDialog()">Mot de Passe oublié </button>
+
+
                 </div>
-                
-                <div class="row ">
+
+                <!--<div class="row ">
                   <span class="text-center mt-2" ><a class="password" (click)="openDialog()">Mot de Passe oublié ?</a></span>
-  
-                </div>
-                
+
+                </div>-->
+
               </form>
             </div>
           </div>
-  
+
         </div>
-  
+
       </div>
     </div>
   </div>
