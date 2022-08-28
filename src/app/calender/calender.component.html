@@ -3,14 +3,55 @@
 </div>
 <p-dialog header="Ajouter un rendez-vous" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
           [draggable]="false" [resizable]="false">
+  <label id="example-radio-group-label" class="m-2">choisir un patient</label>
+  <mat-radio-group
+    aria-labelledby="example-radio-group-label"
+    class="example-radio-group"
+    [(ngModel)]="typepatient">
+    <mat-radio-button class="example-radio-button" *ngFor="let type of typeP" [value]="type">
+      {{type}}
+    </mat-radio-button>
+  </mat-radio-group>
+  <hr>
   <form [formGroup]="ajoutRDVform">
     <div class="card-body">
+      <div *ngIf="typepatient=='Nouveau'">
       <div class="row">
         <div class="form-group col-lg-6">
-          <label class="form-label">email</label>
-          <input class="form-control" type="email" placeholder="entrer votre email" formControlName="patientEmail">
+          <label class="form-label">Nom</label>
+          <input class="form-control" type="text" formControlName="nom">
         </div>
         <div class="form-group col-lg-6">
+          <label class="form-label">prenom</label>
+          <input class="form-control" type="text" formControlName="prenom">
+        </div>
+        </div>
+    <div class="row">
+      <div class="form-group col-lg-6">
+        <label class="form-label">email</label>
+        <input class="form-control" type="text"  formControlName="email">
+      </div>
+      <div class="form-group col-lg-6">
+        <label class="form-label">téléphone</label>
+        <input class="form-control" type="text" formControlName="telephone">
+      </div>
+    </div>
+      </div>
+      <div class="row" *ngIf="typepatient=='Ancien'">
+        <div class="form-group col-lg-6">
+        <label class="form-label">Patient</label>
+        <select class="form-control" formControlName="patient" [(ngModel)]="patientid">
+          <option selected="selected">choisir un patient</option>
+          <option *ngFor="let patient of patients" [value]="patient.id"> {{patient.nom}} {{patient.prenom}} </option>
+        </select>
+        </div>
+        <!--<div class="form-group col-lg-6">
+          <label class="form-label">email</label>
+          <input class="form-control" type="email" placeholder="entrer votre email" formControlName="patientEmail" [(ngModel)]="pat.email">
+        </div>-->
+      </div>
+      <div class="row">
+        <div class="form-group col">
           <label class="form-label">Medecin</label>
           <select class="form-control" formControlName="user" [(ngModel)]="id">
             <option selected="selected">choisir un medecin</option>
@@ -37,7 +78,8 @@
   </form>
   <div class="modal-footer">
     <button class="btn btn-danger" (click)="displayModal=false">Annuler</button>
-    <button class="btn btn-success m-2 "  (click)="displayModal=false; ajoutRdv()">Ajouter</button>
+    <button class="btn btn-success m-2 "  (click)="displayModal=false; ajoutRdv()" *ngIf="typepatient=='Ancien'">Ajouter</button>
+    <button class="btn btn-success m-2 "  (click)="displayModal=false; ajoutnouveaurdv()" *ngIf="typepatient=='Nouveau'">Ajouter</button>
   </div>
 
 </p-dialog>

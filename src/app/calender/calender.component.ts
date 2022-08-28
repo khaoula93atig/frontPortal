@@ -7,6 +7,8 @@ import {AccountService} from "../services/account.service";
 import {UserEntity} from "../../models/userEntity";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {Patient} from "../../models/Patient";
+import {PatientService} from "../services/patient.service";
 
 
 
@@ -38,11 +40,16 @@ export class CalenderComponent implements OnInit {
   dateajout:Date;
   heur='';
   id:number;
-
+  typepatient:string;
+  typeP=['Ancien','Nouveau']
+  patients:Patient[]=[];
+  patientid:number;
+  pat=new Patient()
   constructor(private rdvService: RendezVousService,
               private userService: AccountService,
               private fb: FormBuilder,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private patientService: PatientService) {
   }
 
   ngAfterViewInit() {
@@ -78,9 +85,14 @@ this.Events=[]
 
   ngOnInit(): void {
     this.ajoutRDVform =this.fb.group({
-      patientEmail:['', Validators.required],
+      //patientEmail:['', Validators.required],
       user: ['', Validators.required],
       dateajout: ['', Validators.required],
+      nom: ['', Validators.required],
+      prenom: ['', Validators.required],
+      telephone: ['', Validators.required],
+      email: ['', Validators.required],
+      patient: ['', Validators.required],
       heure: ['', Validators.required]
     })
     this.modifierRDVform =this.fb.group({
@@ -91,6 +103,7 @@ this.Events=[]
     })
     this.getAllRdv();
     this.getAllMedecin();
+    this.getallpatient()
     this.calendarOptions = {
       headerToolbar: {
         left: 'prev,next',
@@ -108,7 +121,7 @@ this.Events=[]
       },
       locale: 'fr',
       selectable: true,
-      initialView: 'dayGridWeek',
+      initialView: 'dayGridMonth',
       dateClick: this.onDateClick.bind(this),
       eventClick: this.onEventClick.bind(this),
       eventColor: '#1abc9c',
@@ -194,23 +207,50 @@ this.Events=[]
   }
 
   ajoutRdv(){
-    let formattedDt = formatDate(this.dateajout, 'yyyy-MM-dd', 'en_FR')
-    console.log(formattedDt)
-    let hr = new Date(formattedDt+ 'T' + this.heur+ ':00');
-    let rdv:any={patientEmail:this.ajoutRDVform.get('patientEmail').value, user:{id:this.id},dateOfApt:hr}
-    console.log(this.date+this.heur,rdv )
-    this.rdvService.ajouterApt(rdv).subscribe(data=> {
+    this.patientService.getbyid(this.patientid).subscribe(data=> {
+      this.pat = data
+      console.log(this.pat)
+      let formattedDt = formatDate(this.dateajout, 'yyyy-MM-dd', 'en_FR')
+      console.log(formattedDt)
+      let hr = new Date(formattedDt + 'T' + this.heur + ':00');
+      let rdv: any = {patientEmail: this.pat.email, user: {id: this.id}, dateOfApt: hr, patient: this.pat}
+      console.log(this.date + this.heur, rdv)
+      this.rdvService.ajouterApt(rdv).subscribe(data => {
+          console.log(data)
+          this.toastr.success('ajout avec succes')
+          this.ngAfterViewInit();
+          this.ajoutRDVform.reset()
+        },
+        erreur => this.toastr.error('verfier les donné'))
+    })
+  }
+  ajoutnouveaurdv(){
+    let pat:any={nom:this.ajoutRDVform.get('nom').value,prenom:this.ajoutRDVform.get('prenom').value,
+      email:this.ajoutRDVform.get('email').value, numtelephone:this.ajoutRDVform.get('telephone').value}
+this.patientService.ajoutPatient(pat).subscribe(data=> {
+  let format = formatDate(this.dateajout, 'yyyy-MM-dd', 'en_FR')
+  console.log(format)
+  let hr = new Date(format + 'T' + this.heur + ':00');
+  let rdv: any = {patientEmail: this.ajoutRDVform.get('email').value, user: {id: this.id}, dateOfApt: hr , patient:data}
+  console.log(this.date + this.heur, rdv)
+  this.rdvService.ajouterApt(rdv).subscribe(data => {
       console.log(data)
       this.toastr.success('ajout avec succes')
       this.ngAfterViewInit();
       this.ajoutRDVform.reset()
     },
-      erreur=>this.toastr.error('verfier les donné'))
+    erreur => this.toastr.error('verfier les donné'))
+})
   }
   annulerRDV(){
     this.rdvService.refuserRdv(this.rendezvous).subscribe(res=>{
       this.toastr.success('rendezvous annulé')
     })
   }
+  getallpatient(){
+    this.patientService.getAllpatient().subscribe(data=>this.patients=data)
+
+  }
+
 
 }
