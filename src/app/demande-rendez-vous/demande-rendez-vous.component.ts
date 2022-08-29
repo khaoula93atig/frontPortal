@@ -7,6 +7,7 @@ import {RendezVousService} from "../services/rendez-vous.service";
 import {RendezVousEntity} from "../../models/RendezVous";
 import {DatePipe} from "@angular/common";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-demande-rendez-vous',
@@ -26,7 +27,8 @@ export class DemandeRendezVousComponent implements OnInit {
   constructor(private fb: FormBuilder,
   private userService: AccountService,
               private rdvService: RendezVousService,
-              private router: Router) { }
+              private router: Router,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getAllMedecin();
@@ -48,10 +50,11 @@ export class DemandeRendezVousComponent implements OnInit {
     let rdv:any={patientEmail:this.ajoutRDVform.get('patientEmail').value, user:{id:this.id},dateOfApt:hr}
     console.log(this.date+this.heur,rdv )
     this.rdvService.demandeRDV(rdv).subscribe(data=> {
+      this.toastr.info('Votre demande a été envoyer avec succées. Vous allez revecevoir un email de réponse', '',
+        {timeOut: 10000, positionClass: 'toast-top-center'})
 
       this.router.navigate(['/'])
       this.displayBasic1 = true
-
     })
 }
 

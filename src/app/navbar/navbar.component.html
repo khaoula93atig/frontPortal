@@ -9,9 +9,12 @@
       <a class="login m-3"[routerLink]="['/calender']">
         Calendrier
       </a>
-      <a class="login" [routerLink]="['/listeRDV']">
+      <a class="login m-3" [routerLink]="['/listeRDV']">
         Liste des demandes
       </a>
+        <a class="login" (click)="logout()">
+          Logout
+        </a>
       </div>
     </mat-toolbar>
     <div>

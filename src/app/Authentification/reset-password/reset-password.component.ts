@@ -67,7 +67,7 @@ export class ResetPasswordComponent implements OnInit {
     this.authentificationService.resetPassword(this.resetpassword).subscribe(next => {
       this.toast.success('password reset');
       setTimeout(() => {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/login');
         }
         , 3000);
 

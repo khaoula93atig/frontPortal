@@ -29,7 +29,7 @@ constructor(private rdvService:RendezVousService,
 }
 
   ngOnInit(): void {
-
+this.rdvs=[]
     this.getrdvENattente();
     this.dataSource.paginator = this.paginator;
 
@@ -44,11 +44,17 @@ constructor(private rdvService:RendezVousService,
     this.rdvService.getbyid(id).subscribe(data=>this.rdv=data)
   }
   annuler(rv:RendezVousEntity){
-    this.rdvService.refuserRdv(rv).subscribe(res=>this.toaster.success('annuler avec succée'))
+    this.rdvService.refuserRdv(rv).subscribe(res=>{
+      this.toaster.success('annuler avec succée')
+      this.ngOnInit()
+    })
   }
 
   confirmer(rv:RendezVousEntity){
-    this.rdvService.confirmerRdv(rv).subscribe(res=>this.toaster.success('confirmer avec succée'))
+    this.rdvService.confirmerRdv(rv).subscribe(res=>{
+      this.toaster.success('confirmer avec succée')
+      this.ngOnInit()
+    })
   }
 
 }

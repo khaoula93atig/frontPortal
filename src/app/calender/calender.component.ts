@@ -221,7 +221,7 @@ this.Events=[]
           this.ngAfterViewInit();
           this.ajoutRDVform.reset()
         },
-        erreur => this.toastr.error('verfier les donné'))
+        erreur => this.toastr.error('rendez-vous deja pris'))
     })
   }
   ajoutnouveaurdv(){
@@ -239,12 +239,14 @@ this.patientService.ajoutPatient(pat).subscribe(data=> {
       this.ngAfterViewInit();
       this.ajoutRDVform.reset()
     },
-    erreur => this.toastr.error('verfier les donné'))
+    erreur => this.toastr.error('rendez-vous deja pris'))
 })
   }
   annulerRDV(){
     this.rdvService.refuserRdv(this.rendezvous).subscribe(res=>{
+
       this.toastr.success('rendezvous annulé')
+      this.ngAfterViewInit()
     })
   }
   getallpatient(){
